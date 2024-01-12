@@ -12,7 +12,7 @@ const CategoryContainer = styled(Box)({
   backgroundColor: "#fff",
   boxShadow:
     "0px 0px 10px 4px rgba(0,0,0,0.14),0px 5px 5px 0px rgba(0,0,0,0.22)",
-  borderRadius: "10px",
+  borderRadius: "14px",
   paddingInline: "20px",
   gap: 20,
   zIndex: 2,
@@ -31,7 +31,7 @@ const CategoryButton = styled(Button)(({ theme, value }) => ({
   },
 }));
 
-function CategoryComp() {
+function FilterCategory() {
   const [active, setActive] = useState<string>("true");
   return (
     <CategoryContainer>
@@ -43,4 +43,4 @@ function CategoryComp() {
   );
 }
 
-export default CategoryComp;
+export default FilterCategory;

@@ -1,18 +1,32 @@
-import { AppBar, Button, Typography, styled, Box } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Typography,
+  styled,
+  Box,
+  Container,
+} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 
-import ContainerComp from "./ContainerComp";
-
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  // backgroundColor: "#fff",
-
-  backgroundColor: "transparent",
+  backgroundColor: "#fff",
+  // backgroundColor: "transparent",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   boxShadow: ` 0 0 10px 10px ${theme.palette.secondary.light}`,
   height: "100px",
-  marginBottom: "80px",
+  marginBottom: "100px",
 }));
 
-const NavButton = styled(Box)({
+const MainNavContainer = styled(Container)({
+  backgroundColor: "pink",
+  maxWidth: "1200px",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+});
+const MainNavButton = styled(Box)({
   display: "flex",
   gap: 20,
 });
@@ -23,15 +37,14 @@ const StyledButton = styled(Button)(({ theme }) => ({
   width: "120px",
   padding: "10px",
 }));
-
 function MainNavBar() {
   return (
     <StyledAppBar position="static">
-      <ContainerComp content="nav">
+      <MainNavContainer>
         <Typography variant="h5" color="primary">
           TravelerLOGO
         </Typography>
-        <NavButton>
+        <MainNavButton>
           <StyledButton
             variant="contained"
             color="primary"
@@ -43,8 +56,8 @@ function MainNavBar() {
           <StyledButton variant="outlined" color="primary">
             Sign up
           </StyledButton>
-        </NavButton>
-      </ContainerComp>
+        </MainNavButton>
+      </MainNavContainer>
     </StyledAppBar>
   );
 }

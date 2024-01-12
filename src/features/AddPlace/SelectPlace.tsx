@@ -1,10 +1,4 @@
-import {
-  Autocomplete,
-  Box,
-  InputAdornment,
-  TextField,
-  styled,
-} from "@mui/material";
+import { Autocomplete, Box, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 // const Place = styled(Autocomplete)({
@@ -35,7 +29,7 @@ interface CountryType {
   phone: string;
   suggested?: boolean;
 }
-function SearchPlace() {
+function SelectPlace() {
   return (
     <Autocomplete
       freeSolo
@@ -81,4 +75,4 @@ function SearchPlace() {
   );
 }
 
-export default SearchPlace;
+export default SelectPlace;

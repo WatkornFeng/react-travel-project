@@ -17,7 +17,7 @@ function SelectDate() {
   const yesterday = new Date(currentday.getTime() - 24 * 60 * 60 * 1000);
   const defaultSelected: DateRange = {
     from: currentday,
-    to: addDays(currentday, 2),
+    to: addDays(currentday, 1),
   };
   const disabledDay: DateRange = {
     from: yesterday,
