@@ -15,6 +15,7 @@ declare module "@mui/material/styles" {
       primary: {
         main: string;
         dark: string;
+        light: string;
       };
       secondary: {
         main: string;
@@ -30,11 +31,31 @@ const theme = createTheme({
     primary: {
       main: "#142B2Fff",
       dark: "#2A474Cff",
+      light: "#A9B9B7ff",
     },
     secondary: {
-      main: "#142B2Fff",
-      dark: " #627477ff",
-      light: "#A9B9B7ff",
+      main: "#3A2C24ff",
+      dark: " #9B9B94ff",
+      light: "#D0D1C6ff",
+    },
+  },
+
+  breakpoints: {
+    values: {
+      xs: 0, // default
+      sm: 600, // default
+      md: 1000, // default 900
+      lg: 1200, // default
+      xl: 1536, // default
+    },
+  },
+  components: {
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          // color: "#2A474Cff",
+        },
+      },
     },
   },
 });

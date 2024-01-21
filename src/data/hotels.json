@@ -1,0 +1,17 @@
+{
+  "hotels": [
+    {
+      "HotelName": "Brazil Hotel",
+      "country": "Brazil",
+      "ISOcode": "BR",
+      "AvailableRooms": 25,
+      "pricePerNight": 100,
+
+      "position": {
+        "lat": -15.793889,
+        "lng": -47.882778
+      },
+      "id": 73930385
+    }
+  ]
+}
