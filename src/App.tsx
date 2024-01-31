@@ -7,6 +7,7 @@ import Hotels from "./pages/Hotels";
 import HotelLayout from "./components/HotelLayout";
 import { SearchProvider } from "./context/SearchContext";
 import { DateProvider } from "./context/AddDateContext";
+import Mapex from "./pages/Mapex";
 function App() {
   return (
     <>
@@ -15,7 +16,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route index element={<Home />} />
-
+              <Route path="map" element={<Mapex />} />
               <Route path="hotels" element={<HotelLayout />}>
                 <Route index element={<Navigate replace to="/" />} />
                 <Route path=":country" element={<Hotels />} />
@@ -41,4 +42,10 @@ https://blog.webdevsimplified.com/2022-07/react-folder-structure/
 
 https://www.youtube.com/watch?v=cqIcPfXngqo
 https://github.com/goldbergyoni/nodebestpractices
+*/
+
+/*
+Map API
+https://www.maptiler.com/ ****
+
 */

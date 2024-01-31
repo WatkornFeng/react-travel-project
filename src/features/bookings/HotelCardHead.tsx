@@ -7,7 +7,7 @@ import StarIcon from "@mui/icons-material/Star";
 
 import PlaceIcon from "@mui/icons-material/Place";
 function calStarRate(num: number) {
-  return new Array(num).fill(1);
+  return Array.from({ length: num }, (_, index) => index + 1);
 }
 
 interface Props {
@@ -39,8 +39,8 @@ function HotelCardHead({ rating, name }: Props) {
           mb: "10px",
         }}
       >
-        {numOfStar.map(() => (
-          <StarIcon sx={{ fontSize: "24px", color: "primary.dark" }} />
+        {numOfStar.map((e) => (
+          <StarIcon key={e} sx={{ fontSize: "24px", color: "primary.dark" }} />
         ))}
       </Box>
       <FlexBox alignItem="flex-start">

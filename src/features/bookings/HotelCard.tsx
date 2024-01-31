@@ -15,7 +15,7 @@ const hotelCardStyle = {
 };
 const hotelCardSmallStyle = {
   overflow: "hidden",
-  Height: "600px",
+  // Height: "600px",
 };
 interface Props {
   name: string;

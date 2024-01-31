@@ -31,6 +31,7 @@ import FilterSortBy from "../features/filter/FilterSortBy";
 import useMatchViewPort from "../hooks/useMatchViewPort";
 import HotelCard from "../features/bookings/HotelCard";
 import { hotelData } from "../data/hotel";
+
 const HeroTypography = styled(Typography)({
   fontSize: "3rem",
   fontWeight: "bold",
@@ -64,7 +65,7 @@ function Hotels() {
   const matches_670 = useMatchViewPort(670);
   const matches_1000 = useMatchViewPort(1000);
   const { country } = useParams();
-  const { state } = useHotelSearch() as SearchHotelContextType;
+  // const { state } = useHotelSearch() as SearchHotelContextType;
   const countryData = countries.find(
     (e) => e.country.toLowerCase() === country
   );

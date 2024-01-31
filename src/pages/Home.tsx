@@ -24,7 +24,7 @@ const HomeBackground = styled("div")({
   backgroundPosition: "center",
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
-  zIndex: "0",
+  // zIndex: "0",
 });
 
 const CardStyle = {

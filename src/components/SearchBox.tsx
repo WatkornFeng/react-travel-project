@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from "@mui/material";
+import { Box, Typography, styled, Input } from "@mui/material";
 const StyledBox = styled(Box)(({ theme }) => ({
   border: "2px solid #d4cccc",
   backgroundColor: "white",
@@ -30,7 +30,7 @@ interface TSearchBox {
   id?: string;
   handleClick: (event: React.MouseEvent<HTMLElement>) => void;
   placeHolder?: string;
-  label: string;
+  label?: string;
   startIcon: JSX.Element;
   endIcon?: JSX.Element;
 }
@@ -56,7 +56,7 @@ function SearchBox({
         <LabelText>{label}</LabelText>
         <PlaceHolderText>{placeHolder}</PlaceHolderText>
       </Box>
-      {endIcon && endIcon}
+      {endIcon}
     </StyledBox>
   );
 }

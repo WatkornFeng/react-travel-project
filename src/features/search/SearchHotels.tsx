@@ -4,6 +4,7 @@ import SelectDate from "../../components/AddDate/SelectDate";
 import SelectGuest from "../../components/AddGuest/SelectGuest";
 import SearchButton from "../../components/MainButton";
 import ContainerButton from "../../components/ContainerButton";
+import SelectPlace from "../../components/AddPlace/SelectPlace";
 
 function SearchHotels() {
   return (
@@ -11,7 +12,7 @@ function SearchHotels() {
       <Zoom in={true} timeout={500}>
         <Stack direction="column" gap={1} sx={{ width: "100%" }}>
           {/* <SelectPlace /> */}
-          <SelectDate />
+          <SelectPlace />
           <Stack
             direction={{ sm: "column", md: "row" }}
             gap={1}

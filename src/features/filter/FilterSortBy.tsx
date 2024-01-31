@@ -15,8 +15,7 @@ function FilterSortBy() {
         value={age}
         onChange={handleChange}
         displayEmpty
-
-        // inputProps={{ "aria-label": "Without label" }}
+        sx={{ bgcolor: "white" }}
       >
         <MenuItem value="">
           <Typography variant="subtitle2">Highest Rating</Typography>
