@@ -1,15 +1,21 @@
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { useState } from "react";
-import MainCard from "../../components/MainCard";
+import TuneIcon from "@mui/icons-material/Tune";
+
 import FilterGuestRating from "./FilterGuestRating";
-import FilterRating from "./FilterRating";
+import FilterStars from "./FilterStars";
 import FilterPropertyType from "./FilterPropertyType";
-import { useMediaQuery } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+
 import useMatchViewPort from "../../hooks/useMatchViewPort";
+import { RootState, useAppDispatch } from "../../store";
+import { toggleModalFilter } from "./filterSlice";
+import { convertDataToArr } from "../../utils/formatData";
+
 const styleModal = {
   position: "absolute",
   top: "50%",
@@ -17,32 +23,44 @@ const styleModal = {
   transform: "translate(-50%, -50%)",
   width: "80%",
   height: "70%",
-  // height: "600px",
   bgcolor: "white",
   borderRadius: "20px",
   boxShadow: 24,
-
-  // padding: "0px 10px s0px 20px",
   padding: "10px 20px 130px 40px",
 };
 
 function FilterModal() {
-  const matchesMedium = useMatchViewPort(1000);
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const widthViewPort_1000 = useMatchViewPort(1000);
 
-  // console.log("O", open);
-  // console.log("M", matches);
+  const { queries, isModalFilterOpen } = useSelector(
+    (state: RootState) => state.filter
+  );
+  const { date, guest } = useSelector((state: RootState) => state.search);
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isModalOpen = isModalFilterOpen && widthViewPort_1000 ? true : false;
 
-  const isModalOpen = open && matchesMedium ? true : false;
+  const dataSearch = { date, guest };
+  const dataArr = convertDataToArr(dataSearch);
+  const concatenatedArray = queries.concat(dataArr);
 
-  // console.log(isModalOpen);
+  useEffect(() => {
+    // console.log("UseEffect");
+    if (!isModalOpen) {
+      dispatch(toggleModalFilter(false));
+      setSearchParams(concatenatedArray.join("&"));
+    }
+  }, [isModalOpen]);
+
+  const submithandler = () => {
+    setSearchParams(concatenatedArray.join("&"));
+    dispatch(toggleModalFilter(false));
+  };
   return (
     <Box display={{ xs: "block", md: "none" }}>
       <Box sx={{ width: "300px" }}>
         <Button
-          onClick={handleOpen}
+          onClick={() => dispatch(toggleModalFilter(true))}
           fullWidth
           sx={{
             bgcolor: "primary.main",
@@ -53,37 +71,30 @@ function FilterModal() {
             },
           }}
         >
+          <TuneIcon fontSize="small" sx={{ mr: 2 }} />
           Filter
         </Button>
       </Box>
 
-      <Modal open={isModalOpen} onClose={handleClose}>
+      <Modal open={isModalFilterOpen}>
         <Box sx={styleModal}>
           <Box
             sx={{
-              // bgcolor: "red",
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <Button onClick={handleClose} sx={{ ml: "-20px" }}>
-              <CloseIcon color="primary" />
-            </Button>
-            <Box>
-              <Typography variant="h6">Filter</Typography>
-            </Box>
-            <Button onClick={handleClose}>
-              <Typography variant="body1">Close</Typography>
-            </Button>
+            <Typography variant="h6">Filter</Typography>
           </Box>
+
           <Box
             sx={{
               height: "100%",
               overflowY: "auto",
             }}
           >
-            <FilterRating />
+            <FilterStars />
             <FilterGuestRating />
             <FilterPropertyType />
           </Box>
@@ -97,6 +108,7 @@ function FilterModal() {
               color="primary"
               variant="contained"
               sx={{ borderRadius: "20px", height: "70px" }}
+              onClick={submithandler}
             >
               Done
             </Button>

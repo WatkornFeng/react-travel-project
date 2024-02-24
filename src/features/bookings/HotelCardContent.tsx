@@ -1,8 +1,13 @@
 import { Box } from "@mui/material";
-import HotelRateReview from "./HotelRateReview";
-import HotelPrice from "./HotelPrice";
+import HotelCardReview from "./HotelCardReview";
+import HotelCardPrice from "./HotelCardPrice";
 
-function HotelCardContent() {
+interface Props {
+  rating: number;
+  price: number;
+}
+
+function HotelCardContent({ rating, price }: Props) {
   return (
     <Box
       sx={{
@@ -21,7 +26,7 @@ function HotelCardContent() {
           alignItems: "center",
         }}
       >
-        <HotelRateReview />
+        <HotelCardReview rating={rating} />
       </Box>
       <Box
         sx={{
@@ -34,7 +39,7 @@ function HotelCardContent() {
           alignItems: "flex-end",
         }}
       >
-        <HotelPrice />
+        <HotelCardPrice price={price} />
       </Box>
     </Box>
   );

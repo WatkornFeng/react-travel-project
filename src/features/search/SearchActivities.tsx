@@ -1,8 +1,8 @@
 import { Box, Stack, Typography, Zoom } from "@mui/material";
 
-import SelectActivity from "../../components/AddActivity/SelectActivity";
+import SelectActivity from "./AddActivity/SelectActivity";
 import ContainerButton from "../../components/ContainerButton";
-import SearchButton from "../../components/MainButton";
+import SearchButton from "./SearchButton";
 
 function SearchActivities() {
   return (
@@ -11,7 +11,6 @@ function SearchActivities() {
         <Stack gap={2}>
           <Box
             sx={{
-              // bgcolor: "red",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -29,7 +28,6 @@ function SearchActivities() {
           >
             <SelectActivity />
           </Stack>
-          {/* <Box sx={{ bgcolor: "red" }}>Or pick popular category </Box> */}
         </Stack>
       </Zoom>
       <ContainerButton>

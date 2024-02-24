@@ -1,31 +1,44 @@
+import { useSelector } from "react-redux";
 import {
-  Box,
   Checkbox,
   FormControlLabel,
   FormGroup,
   Typography,
 } from "@mui/material";
-const guestRating = [
-  "Outstanding 9+",
-  "Very Good 8+",
-  "Good 7+",
-  "Satisfactory 6+",
-];
+import { RootState, useAppDispatch } from "../../store";
+import { IRatings, queryRatings } from "./filterSlice";
+
 function FilterGuestRating() {
+  const { ratings: guestRating } = useSelector(
+    (state: RootState) => state.filter
+  );
+
+  const dispatch = useAppDispatch();
+
+  const handleClickCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(queryRatings(event.target.value));
+  };
+
   return (
     <>
       <Typography sx={{ fontSize: "1rem", fontWeight: "bold" }}>
         Guest Rating
       </Typography>
+
       <FormGroup>
-        {guestRating.map((rating) => (
+        {guestRating.map(({ grade, isChecked, value }: IRatings) => (
           <FormControlLabel
-            key={rating}
+            key={value}
             control={
               <>
-                <Checkbox size="small" />
+                <Checkbox
+                  size="small"
+                  checked={isChecked}
+                  value={grade}
+                  onChange={handleClickCheckbox}
+                />
                 <Typography sx={{ fontSize: "0.9rem", fontWeight: "normal" }}>
-                  {rating}
+                  {grade} {value ? value : ""} {value ? "+" : ""}
                 </Typography>
               </>
             }

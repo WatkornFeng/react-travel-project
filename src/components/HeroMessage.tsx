@@ -9,7 +9,7 @@ function HeroMessage() {
   return (
     <Grow in={true} style={{ transformOrigin: "-1 0 0" }} timeout={2000}>
       <HeadTypography variant="h5">
-        Discover World and Uncover Stories
+        Discover THAILAND and Uncover Stories
       </HeadTypography>
     </Grow>
   );

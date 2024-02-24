@@ -1,13 +1,5 @@
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Rating,
-  Stack,
-  Typography,
-} from "@mui/material";
-import FilterRating from "./FilterRating";
+import { Box, Stack, Typography } from "@mui/material";
+import FilterStars from "./FilterStars";
 import FilterGuestRating from "./FilterGuestRating";
 import FilterPropertyType from "./FilterPropertyType";
 import MainCard from "../../components/MainCard";
@@ -15,17 +7,16 @@ import MainCard from "../../components/MainCard";
 const filterStyle = {
   paddingBottom: "20px",
   boxShadow: "0px 24px 3px -24px grey",
-  // backgroundColor: "red",
-  // border: "1px solid gray  ",
   padding: "20px",
 };
+
 function SideBarFilter() {
   return (
     <Stack gap={2} display={{ xs: "none", md: "block" }}>
       <Typography variant="h6">Filter</Typography>
       <MainCard elevation={2}>
         <Box sx={filterStyle}>
-          <FilterRating />
+          <FilterStars />
         </Box>
         <Box sx={filterStyle}>
           <FilterGuestRating />

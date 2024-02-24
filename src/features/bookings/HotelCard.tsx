@@ -1,53 +1,77 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
+import { Box, IconButton } from "@mui/material";
 import useMatchViewPort from "../../hooks/useMatchViewPort";
 import MainCard from "../../components/MainCard";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import StarIcon from "@mui/icons-material/Star";
-import { Link } from "react-router-dom";
-import PlaceIcon from "@mui/icons-material/Place";
-import FlexBox from "../../components/FlexBox";
+
 import HotelCardHead from "./HotelCardHead";
 import HotelCardContent from "./HotelCardContent";
 import HotelCardPicture from "./HotelCardPicture";
-const hotelCardStyle = {
-  overflow: "hidden",
-  // height: "320px",
-};
-const hotelCardSmallStyle = {
-  overflow: "hidden",
-  // Height: "600px",
-};
+// import { setHotelID } from "./hotelSlice";
+import { useAppDispatch } from "../../store";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteButton from "../../components/FavoriteButton";
 interface Props {
+  id: string;
   name: string;
-  description: string;
   rating: number;
-  cover: string;
-  guestReview: number;
+  cover?: string;
+  stars: number;
+  price: number;
+  facilities: string[];
+  location: string;
+  slug: string;
+  image: string;
+  // description: string;
+  // guestReview: number;
 }
 
-function HotelCard({ cover, name, description, rating, guestReview }: Props) {
-  const matches_650 = useMatchViewPort(650);
-  const matches_850 = useMatchViewPort(850);
-
+function HotelCard({
+  name,
+  stars,
+  rating,
+  price,
+  facilities,
+  location,
+  slug,
+  id,
+  image,
+}: Props) {
+  const dispatch = useAppDispatch();
+  const widthViewPort_650 = useMatchViewPort(650);
+  const widthViewPort_850 = useMatchViewPort(850);
+  const handleFavorite = () => {
+    // console.log("Clikc fav");
+  };
   return (
-    <Link to="" style={{ textDecoration: "none" }}>
-      <MainCard
-        elevation={2}
-        sx={matches_650 ? hotelCardSmallStyle : hotelCardStyle}
+    <Box sx={{ position: "relative" }}>
+      <Link
+        to={`/hotels/${location}/${slug}`}
+        style={{ textDecoration: "none" }}
+        // onClick={() => dispatch(setHotelID(slug))}
       >
-        <Box
-          display="grid"
-          gridTemplateColumns={matches_650 ? "1fr" : "0.4fr 0.6fr"}
-          gridTemplateRows={matches_650 ? "300px 300px" : "320px"}
-        >
-          <HotelCardPicture cover={cover} />
-          <Box sx={{ padding: `${matches_850 ? "10px" : "16px"}` }}>
-            <HotelCardHead rating={rating} name={name} />
-            <HotelCardContent />
+        <MainCard elevation={2} sx={{ overflow: "hidden" }}>
+          <Box
+            display="grid"
+            gridTemplateColumns={widthViewPort_650 ? "1fr" : "0.4fr 0.6fr"}
+            gridTemplateRows={widthViewPort_650 ? "300px 300px" : "320px"}
+          >
+            <HotelCardPicture cover={image} />
+
+            <Box sx={{ padding: `${widthViewPort_850 ? "10px" : "16px"}` }}>
+              <HotelCardHead
+                stars={stars}
+                name={name}
+                facilities={facilities}
+                location={location}
+              />
+              <HotelCardContent rating={rating} price={price} />
+            </Box>
           </Box>
-        </Box>
-      </MainCard>
-    </Link>
+        </MainCard>
+      </Link>
+
+      <FavoriteButton handleFavorite={handleFavorite} position="absolute" />
+    </Box>
   );
 }
 

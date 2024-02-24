@@ -1,4 +1,4 @@
-import { getDate } from "date-fns";
+import { format, getDate } from "date-fns";
 import { DateRange } from "react-day-picker";
 function dateToString(from: Date, to?: Date): string {
   const fromDateString = `${from.toLocaleString("en-US", {
@@ -13,6 +13,13 @@ function dateToString(from: Date, to?: Date): string {
   })} ${to.getDate()} ${to.toLocaleString("en-US", { month: "short" })}`;
   return `${fromDateString} ― ${toDateString}`;
 }
+
+export function timestampToFormatDate(timestamp: number) {
+  const formattedDate = format(new Date(timestamp), "yyyy-MM-dd");
+
+  return formattedDate;
+}
+
 export function formatDateToPlaceholder(selectedDay: DateRange | undefined) {
   const { from, to } = { ...selectedDay };
 

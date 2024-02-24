@@ -75,7 +75,9 @@ function RecommendProd() {
             alignItems: "center",
           }}
         >
-          <Typography variant="h6">Why book with TravelLOGO?</Typography>
+          <Typography variant="h6" fontWeight="bold">
+            Why book with SmileTravel?
+          </Typography>
           <Button
             sx={{ width: "20px" }}
             onClick={() => setUnfold((prev) => !prev)}
@@ -89,7 +91,7 @@ function RecommendProd() {
         </Box>
       </Grow>
       {unfold && (
-        <Stack direction={{ sm: "column", md: "row" }} gap={{ sm: 2, md: 5 }}>
+        <Stack direction={{ sm: "column", md: "row" }} gap={{ xs: 2, md: 5 }}>
           {contents.map((content) => (
             <RecommendProdContent
               key={content.keyword}

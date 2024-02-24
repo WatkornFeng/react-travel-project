@@ -1,21 +1,16 @@
-import FlexBox from "../../components/FlexBox";
-import { Box, Grid, Paper, Typography } from "@mui/material";
-import useMatchViewPort from "../../hooks/useMatchViewPort";
-import MainCard from "../../components/MainCard";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import StarIcon from "@mui/icons-material/Star";
-
+import { Box, Typography } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
-function calStarRate(num: number) {
-  return Array.from({ length: num }, (_, index) => index + 1);
-}
+import StarRating from "../../components/StarRating";
 
 interface Props {
-  rating: number;
+  stars: number;
   name: string;
+  facilities: string[];
+  location: string;
 }
-function HotelCardHead({ rating, name }: Props) {
-  const numOfStar = calStarRate(rating);
+function HotelCardHead({ stars, name, facilities, location }: Props) {
+  // const numOfStar = calStarRate(stars);
+
   return (
     <Box
       sx={{
@@ -39,23 +34,49 @@ function HotelCardHead({ rating, name }: Props) {
           mb: "10px",
         }}
       >
-        {numOfStar.map((e) => (
-          <StarIcon key={e} sx={{ fontSize: "24px", color: "primary.dark" }} />
-        ))}
+        <StarRating stars={stars} size="1rem" color="primary.dark" />
+        {/* {numOfStar.map((e) => (
+          <StarIcon key={e} sx={{ fontSize: "1rem", color: "primary.dark" }} />
+        ))} */}
       </Box>
-      <FlexBox alignItem="flex-start">
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          // flexDirection: "row",
+          alignItems: "center",
+          // bgcolor: "red",
+          mb: 1,
+        }}
+      >
         <PlaceIcon sx={{ fontSize: "24px", color: "primary.dark" }} />
-        <Typography display="inline-block" sx={{ fontSize: "0.7rem" }}>
-          location
+        <Typography
+          display="inline-block"
+          sx={{ fontSize: "0.7rem", fontWeight: "bold" }}
+        >
+          {location}
         </Typography>
-      </FlexBox>
-      <Box>
-        <Typography display="inline-block" sx={{ fontSize: "0.7rem" }}>
-          Breakfast
-        </Typography>
-        <Typography display="inline-block" sx={{ fontSize: "0.7rem" }}>
-          Free Wifi
-        </Typography>
+      </Box>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        {facilities.map((facility, index) => (
+          <Box
+            key={index}
+            sx={{
+              mr: 1,
+              p: 0.5,
+              bgcolor: "primary.light",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography
+              key={facility}
+              display="inline-block"
+              sx={{ fontSize: "0.7rem", fontWeight: "bold" }}
+            >
+              {facility}
+            </Typography>
+          </Box>
+        ))}
       </Box>
     </Box>
   );

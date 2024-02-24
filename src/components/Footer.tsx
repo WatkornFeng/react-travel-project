@@ -1,84 +1,222 @@
-import { Box, List, ListItem, Typography, styled } from "@mui/material";
-
+import { Box, List, ListItem, Stack, Typography, styled } from "@mui/material";
+import useMatchViewPort from "../hooks/useMatchViewPort";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkLogo from "./LinkLogo";
+import googlePlayImg from "../assets/images/mobile/googlePlay.png";
+import appStoreImg from "../assets/images/mobile/appStore.png";
+import { Link } from "react-router-dom";
 const FooterContainer = styled("footer")(({ theme }) => ({
   width: "100%",
-  height: "500px",
+  minHeight: "400px",
   backgroundColor: `${theme.palette.secondary.main}`,
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  marginTop: "50px",
 }));
 const FooterSection = styled("section")({
   display: "flex",
-  backgroundColor: "grey",
-  gap: "15px",
-  height: "75%",
-});
-const ContentList = styled(ListItem)({
-  paddingLeft: "0",
+  // backgroundColor: "grey",
+  flexWrap: "wrap",
+  width: "100%",
+  maxWidth: "1200px",
+  marginBottom: "50px",
+  // height: "90%",
 });
 const Content = styled(Typography)(({ theme }) => ({
-  fontSize: "14px",
+  fontSize: "0.75rem",
   color: `${theme.palette.secondary.light}`,
+
+  "&:hover": {
+    textDecoration: "underline",
+  },
+}));
+const ContentList = styled(ListItem)(({ theme }) => ({
+  paddingLeft: "0",
+  color: `${theme.palette.secondary.light}`,
+  display: "flex",
+
+  justifyContent: "flex-start",
 }));
 
+interface ISocialData {
+  social: string;
+  icon: JSX.Element;
+}
+const aboutCompanies = ["How to Book", "About us", "Careers"];
+
+const products = ["Hotels", "Tours"];
+const socialMedia: ISocialData[] = [
+  {
+    social: "Facebook",
+    icon: <FacebookIcon />,
+  },
+  {
+    social: "Twitter",
+    icon: <TwitterIcon />,
+  },
+  {
+    social: "Instagram",
+    icon: <InstagramIcon />,
+  },
+];
+
+interface Props {
+  data: string[] | ISocialData[];
+}
+const FooterList = ({ data }: Props) => {
+  return (
+    <Box component="ul">
+      {data.map((e, i) => (
+        <ContentList key={i}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                mr: `${(e as ISocialData).icon ? "15px" : ""}`,
+              }}
+            >
+              {(e as ISocialData).icon}
+            </Box>
+            <Link to="#" key={i}>
+              <Content>{(e as ISocialData).social || (e as string)}</Content>
+            </Link>
+          </Box>
+        </ContentList>
+      ))}
+    </Box>
+  );
+};
+const year = new Date().getFullYear();
 function Footer() {
+  const matches_800 = useMatchViewPort(1000);
   return (
     <FooterContainer>
-      <FooterSection>
-        <Box>
-          <Typography variant="subtitle1" color="secondary.dark">
-            Help
+      <Stack
+        direction="column"
+        sx={{
+          width: "100%",
+          maxWidth: "1200px",
+        }}
+      >
+        <FooterSection>
+          {/*----------------Companies & About us--------------------- */}
+          <Box
+            width={matches_800 ? "50%" : "40%"}
+            sx={{
+              padding: "10px",
+            }}
+          >
+            <LinkLogo
+              textColor="white"
+              fontSize={matches_800 ? "small" : "verylarge"}
+            />
+            <Typography
+              variant="subtitle1"
+              color="secondary.light"
+              fontWeight="bold"
+            >
+              Download SmileTravel App
+            </Typography>
+            <Stack sx={{ justifyContent: "center" }}>
+              <Link to="#">
+                <Box
+                  component="img"
+                  src={googlePlayImg}
+                  height={"50px"}
+                  width={"150px"}
+                  sx={{
+                    filter: "grayscale(100%)",
+                    "&:hover": {
+                      filter: "grayscale(0%)",
+                    },
+                  }}
+                />
+              </Link>
+              <Link to="#">
+                <Box
+                  component="img"
+                  src={appStoreImg}
+                  height={"50px"}
+                  width={"150px"}
+                  sx={{
+                    filter: "grayscale(100%)",
+                    "&:hover": {
+                      filter: "grayscale(0%)",
+                    },
+                  }}
+                />
+              </Link>
+            </Stack>
+          </Box>
+          <Box
+            width={matches_800 ? "50%" : "20%"}
+            sx={{
+              padding: "10px",
+            }}
+          >
+            <Typography
+              variant="subtitle1"
+              color="secondary.light"
+              fontWeight="bold"
+            >
+              About SmileTravel
+            </Typography>
+            <FooterList data={aboutCompanies} />
+          </Box>
+
+          {/*----------------Product & Follow us--------------------- */}
+
+          <Box sx={{ padding: "10px" }} width={matches_800 ? "50%" : "20%"}>
+            <Typography
+              variant="subtitle1"
+              color="secondary.light"
+              fontWeight="bold"
+            >
+              Products
+            </Typography>
+            <FooterList data={products} />
+          </Box>
+          <Box
+            sx={{
+              padding: "10px",
+            }}
+            width={matches_800 ? "50%" : "20%"}
+          >
+            <Typography
+              variant="subtitle1"
+              color="secondary.light"
+              fontWeight="bold"
+            >
+              Follow us on
+            </Typography>
+            <FooterList data={socialMedia} />
+          </Box>
+        </FooterSection>
+        {/*----------------Copy right--------------------- */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            fontWeight="bold"
+            fontSize="0.75rem"
+            sx={{
+              color: "secondary.light",
+            }}
+          >
+            Copyright © {year} Smile Travel. All rights reserved
           </Typography>
-          <List>
-            <ContentList>
-              <Content> Manage cookie settings</Content>
-            </ContentList>
-            <ContentList>
-              <Content>Term of use</Content>
-            </ContentList>
-          </List>
         </Box>
-        <Box>
-          <Typography variant="subtitle1" color="secondary.dark">
-            Help
-          </Typography>
-          <List>
-            <ContentList>
-              <Content> Manage cookie settings</Content>
-            </ContentList>
-            <ContentList>
-              <Content>Term of use</Content>
-            </ContentList>
-          </List>
-        </Box>
-        <Box>
-          <Typography variant="subtitle1" color="secondary.dark">
-            Help
-          </Typography>
-          <List>
-            <ContentList>
-              <Content> Manage cookie settings</Content>
-            </ContentList>
-            <ContentList>
-              <Content>Term of use</Content>
-            </ContentList>
-          </List>
-        </Box>
-        <Box>
-          <Typography variant="subtitle1" color="secondary.dark">
-            Help
-          </Typography>
-          <List>
-            <ContentList>
-              <Content> Manage cookie settings</Content>
-            </ContentList>
-            <ContentList>
-              <Content>Term of use</Content>
-            </ContentList>
-          </List>
-        </Box>
-      </FooterSection>
+      </Stack>
     </FooterContainer>
   );
 }

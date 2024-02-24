@@ -1,7 +1,7 @@
-import { Box, styled } from "@mui/material";
+import { Box, Container, styled } from "@mui/material";
 import cover from "../assets/images/country/mountain.jpg";
 
-import MainLayout from "../components/MainLayout";
+// import MainLayout from "../components/MainLayout";
 import MainNavBar from "../components/MainNavBar";
 import Footer from "../components/Footer";
 
@@ -11,16 +11,20 @@ import HeroMessage from "../components/HeroMessage";
 import MainCard from "../components/MainCard";
 
 import CategoryTabList from "../features/search/CategoryTabList";
-import SearchHotels from "../features/search/SearchHotels";
+// import SearchHotels from "../features/search/SearchHotels";
 import { useState } from "react";
 import SearchActivities from "../features/search/SearchActivities";
 
 import useMatchViewPort from "../hooks/useMatchViewPort";
+import SearchHotels from "../features/search/SearchHotels";
+import SearchHotelsBar from "../features/search/SearchHotelsBar";
+import useScrollVisibility from "../hooks/useScrollVisibility";
 
 const HomeBackground = styled("div")({
   width: "100%",
   maxHeight: "500px",
   backgroundImage: `url(${cover})`,
+  // backgroundImage: `url(${url})`,
   backgroundPosition: "center",
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
@@ -76,15 +80,16 @@ function CustomTabPanel(props: TabPanelProps) {
 function Home() {
   const matchesMedium = useMatchViewPort(1000);
   const [value, setValue] = useState(0);
-
+  const isVisible = useScrollVisibility(600);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   return (
     <>
+      {isVisible ? <SearchHotelsBar /> : null}
       <MainNavBar />
       <HomeBackground>
-        <MainLayout>
+        <Container>
           <Box sx={{ paddingTop: "75px", marginBottom: "100px" }}>
             <HeroMessage />
           </Box>
@@ -104,7 +109,7 @@ function Home() {
 
           <RecommendProd />
           <RecommendHotels />
-        </MainLayout>
+        </Container>
         <Footer />
       </HomeBackground>
     </>
