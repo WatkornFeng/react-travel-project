@@ -54,17 +54,17 @@ function CustomModal({
     <Modal
       open={toggled}
       onClose={handleClose}
-      aria-labelledby="modal-place"
-      aria-describedby="modal-notify-no-place"
+      aria-labelledby="modal-label"
+      aria-describedby="modal-description"
     >
       <Box sx={style}>
         <IconButton sx={styleCloseBtn} onClick={handleClose}>
           <CloseIcon sx={{ fontWeight: "bold" }} />
         </IconButton>
-        <Typography id="modal-place" variant="h6" component="h2">
+        <Typography id="modal-label" variant="h6" component="h2">
           {topic}
         </Typography>
-        <Typography id="modal-notify-no-place" sx={{ mt: 2 }}>
+        <Typography id="modal-description" sx={{ mt: 2 }}>
           {details}
         </Typography>
         <Button

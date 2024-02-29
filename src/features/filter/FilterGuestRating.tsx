@@ -1,10 +1,5 @@
 import { useSelector } from "react-redux";
-import {
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Typography,
-} from "@mui/material";
+import { Radio, Box, Typography } from "@mui/material";
 import { RootState, useAppDispatch } from "../../store";
 import { IRatings, queryRatings } from "./filterSlice";
 
@@ -25,27 +20,27 @@ function FilterGuestRating() {
         Guest Rating
       </Typography>
 
-      <FormGroup>
-        {guestRating.map(({ grade, isChecked, value }: IRatings) => (
-          <FormControlLabel
-            key={value}
-            control={
-              <>
-                <Checkbox
-                  size="small"
-                  checked={isChecked}
-                  value={grade}
-                  onChange={handleClickCheckbox}
-                />
-                <Typography sx={{ fontSize: "0.9rem", fontWeight: "normal" }}>
-                  {grade} {value ? value : ""} {value ? "+" : ""}
-                </Typography>
-              </>
-            }
-            label=""
+      {guestRating.map(({ grade, isChecked, value }: IRatings) => (
+        <Box
+          key={grade}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Radio
+            size="small"
+            checked={isChecked}
+            onChange={handleClickCheckbox}
+            value={grade}
+            name="radio-buttons"
+            inputProps={{ "aria-label": "Property type" }}
           />
-        ))}
-      </FormGroup>
+          <Typography sx={{ fontSize: "0.9rem", fontWeight: "normal" }}>
+            {grade} {value ? value : ""} {value ? "+" : ""}
+          </Typography>
+        </Box>
+      ))}
     </>
   );
 }

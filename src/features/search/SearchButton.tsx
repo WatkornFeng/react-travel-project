@@ -15,18 +15,21 @@ function SearchButton({ textBtn, nameBtn }: Props) {
   const { place, guest, date } = useSelector(
     (state: RootState) => state.search
   );
+  const [searchParams, setSearchParams] = useSearchParams();
   const queries = useSelector((state: RootState) => state.filter.queries);
 
+  console.log(searchParams.get("id"));
   const { placeParam } = useParams();
 
   const navigate = useNavigate();
   const [toggledModal, setToggledModal] = useState(false);
 
   const handleClickSearch = () => {
+    setSearchParams({ id: "1", name: "xsxsxx" });
     const dataSearch = { date, guest };
     const queryString = queries.concat(convertDataToArr(dataSearch)).join("&");
 
-    // handle case when no places
+    //handle case when no places
     if (!place && !placeParam) return setToggledModal(true);
 
     navigate(`/hotels/${place || placeParam}?${queryString}`);

@@ -72,6 +72,7 @@ function HotelSearch() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const queryString = searchParams.toString();
+  // console.log(queryString);
   const obj = { queryString, placeParam };
   const { data: gethotels, error, isFetching } = useGetHotelsQuery(obj);
   const widthViewPort_670 = useMatchViewPort(670);
