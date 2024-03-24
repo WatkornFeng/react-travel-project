@@ -11,14 +11,20 @@ export interface IDate {
   from: number | undefined;
   to: number | undefined;
 }
+export interface IProvinceObject {
+  province: string;
+  id: string;
+  cover: string;
+}
 
 interface IinitailState {
-  place: string;
+  // place: string;
+  place: IProvinceObject | null;
   guest: IGuest;
   date: IDate;
 }
 const initialState: IinitailState = {
-  place: "",
+  place: null,
   guest: {
     adult: 1,
     child: 0,
@@ -81,7 +87,7 @@ const searchSlice = createSlice({
       },
     },
 
-    selectPlace(state, action: PayloadAction<string>) {
+    selectPlace(state, action: PayloadAction<IProvinceObject | null>) {
       state.place = action.payload;
     },
   },

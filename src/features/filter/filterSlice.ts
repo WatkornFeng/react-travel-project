@@ -17,11 +17,15 @@ interface IinitailState {
   stars: IStars[];
   properties: IProperty[];
   ratings: IRatings[];
+  sort: string;
+  rating: string;
   queries: string[];
   isModalFilterOpen: boolean;
 }
 const initialState: IinitailState = {
   queries: ["sort=PRICE_LOW_TO_HIGH", "rating=Any"],
+  sort: "PRICE_LOW_TO_HIGH",
+  rating: "Any",
   stars: [
     { number: 5, isChecked: false },
     { number: 4, isChecked: false },
@@ -36,8 +40,8 @@ const initialState: IinitailState = {
     { type: "Apartment", isChecked: false },
     { type: "Aparthotel", isChecked: false },
     { type: "B&B", isChecked: false },
-    { type: "Homes", isChecked: false },
-    { type: "Villas", isChecked: false },
+    { type: "Home", isChecked: false },
+    { type: "Villa", isChecked: false },
   ],
   ratings: [
     { grade: "Any", isChecked: true, value: 0 },

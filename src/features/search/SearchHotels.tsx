@@ -4,12 +4,17 @@ import SelectGuest from "./AddGuest/SelectGuest";
 import SelectDate from "./AddDate/SelectDate";
 import SelectPlace from "./AddPlace/SelectPlace";
 import SearchButton from "./SearchButton";
+import { IProvinceObject } from "./searchSlice";
 
-function SearchHotels() {
+interface IProps {
+  isFetchingProvince: boolean;
+  province: IProvinceObject[];
+}
+function SearchHotels({ isFetchingProvince, province }: IProps) {
   return (
     <Box sx={{ width: "100%" }}>
       <Stack direction="column" gap={2}>
-        <SelectPlace />
+        <SelectPlace isFetching={isFetchingProvince} province={province} />
         <Stack direction={{ xs: "column", md: "row" }} gap={2}>
           <SelectDate />
           <SelectGuest />

@@ -6,33 +6,65 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import CustomModal from "../../components/CustomModal";
 import { useState } from "react";
 import { convertDataToArr } from "../../utils/formatData";
+import { IProvinceObject } from "./searchSlice";
 
 interface Props {
   textBtn?: string;
   nameBtn?: string;
 }
+
+export interface IQueriesObj {
+  rating: string;
+  sort: string;
+  adult: number;
+  child: number;
+  room: number;
+  from: number | undefined;
+  to: number | undefined;
+}
 function SearchButton({ textBtn, nameBtn }: Props) {
   const { place, guest, date } = useSelector(
     (state: RootState) => state.search
   );
-  const [searchParams, setSearchParams] = useSearchParams();
-  const queries = useSelector((state: RootState) => state.filter.queries);
 
-  console.log(searchParams.get("id"));
+  // console.log(place);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  // const queries = useSelector((state: RootState) => state.filter.queries);
+  const { sort, rating, queries } = useSelector(
+    (state: RootState) => state.filter
+  );
+
+  // console.log(searchParams.get("id"));
   const { placeParam } = useParams();
 
   const navigate = useNavigate();
   const [toggledModal, setToggledModal] = useState(false);
 
   const handleClickSearch = () => {
-    setSearchParams({ id: "1", name: "xsxsxx" });
     const dataSearch = { date, guest };
+    const queriesObject = { ...date, ...guest, rating, sort };
     const queryString = queries.concat(convertDataToArr(dataSearch)).join("&");
+    const storedData = localStorage.getItem("province");
+    // console.log(storedData !== null);
+    let pro: IProvinceObject;
+    if (storedData && JSON.parse(storedData) !== null) {
+      pro = JSON.parse(storedData);
+      // console.log("x");
+      localStorage.setItem("province", JSON.stringify(pro));
+      localStorage.setItem("queries", JSON.stringify(queriesObject));
+      // if (placeParam) {
+      //   navigate(`/hotels/${pro.province}?${queryString}`, {
+      //     replace: true,
+      //     state: pro,
+      //   });
+      //   return;
+      // }
+      navigate(`/hotels/${pro.province}?${queryString}`);
 
-    //handle case when no places
-    if (!place && !placeParam) return setToggledModal(true);
-
-    navigate(`/hotels/${place || placeParam}?${queryString}`);
+      return;
+    }
+    setToggledModal(true);
   };
   return (
     <>

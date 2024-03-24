@@ -38,20 +38,20 @@ function createListText(age: string, numguest: number) {
     }
   }
 }
-function GuestList({ age }: { age: string }) {
+function GuestList({ list }: { list: string }) {
   const guest = useSelector((state: RootState) => state.search.guest);
   const dispatch = useAppDispatch();
   const { adult, room } = guest;
   // const { adult,child, room } = guest;
 
-  const number = guest[age as keyof IGuest];
+  const number = guest[list as keyof IGuest];
 
-  const isDisabled = checkBtnDisabled(age, number);
+  const isDisabled = checkBtnDisabled(list, number);
   const adultEqualRoom = adult === room;
   const decBtnIsDisabled =
-    age === "adult" ? (adultEqualRoom ? true : false) : isDisabled;
+    list === "adult" ? (adultEqualRoom ? true : false) : isDisabled;
 
-  const ListText = createListText(age, number);
+  const ListText = createListText(list, number);
   return (
     <ListItem
       sx={{
@@ -71,7 +71,7 @@ function GuestList({ age }: { age: string }) {
         }}
       >
         <Button
-          onClick={() => dispatch(decrementGuest(age))}
+          onClick={() => dispatch(decrementGuest(list))}
           disabled={decBtnIsDisabled}
         >
           <RemoveCircleIcon
@@ -94,7 +94,7 @@ function GuestList({ age }: { age: string }) {
           </Typography>
         </Box>
         <Button
-          onClick={() => dispatch(incrementGuest(age))}
+          onClick={() => dispatch(incrementGuest(list))}
           disabled={number === 12}
         >
           <AddCircleIcon

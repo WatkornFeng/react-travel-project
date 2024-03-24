@@ -8,7 +8,13 @@ import { useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Logo from "../../components/Logo";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-function SearchHotelsBar() {
+import { IProvinceObject } from "./searchSlice";
+
+interface IProps {
+  isFetchingProvince: boolean;
+  province: IProvinceObject[];
+}
+function SearchHotelsBar({ isFetchingProvince, province }: IProps) {
   const matches_1120 = useMatchViewPort(1120);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(true);
 
@@ -62,7 +68,7 @@ function SearchHotelsBar() {
         )}
         {(isSearchBarOpen || !matches_1120) && (
           <>
-            <SelectPlace />
+            <SelectPlace isFetching={isFetchingProvince} province={province} />
             <SelectDate />
             <SelectGuest />
             <Box sx={{ minWidth: "200px" }}>

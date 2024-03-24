@@ -12,13 +12,15 @@ import MainCard from "../components/MainCard";
 
 import CategoryTabList from "../features/search/CategoryTabList";
 // import SearchHotels from "../features/search/SearchHotels";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchActivities from "../features/search/SearchActivities";
 
 import useMatchViewPort from "../hooks/useMatchViewPort";
 import SearchHotels from "../features/search/SearchHotels";
 import SearchHotelsBar from "../features/search/SearchHotelsBar";
 import useScrollVisibility from "../hooks/useScrollVisibility";
+import { useGetProvincesQuery } from "../services/apiProvinceSlice";
+import { IProvinceObject } from "../features/search/searchSlice";
 
 const HomeBackground = styled("div")({
   width: "100%",
@@ -81,12 +83,30 @@ function Home() {
   const matchesMedium = useMatchViewPort(1000);
   const [value, setValue] = useState(0);
   const isVisible = useScrollVisibility(600);
+  const { data, isError, isFetching } = useGetProvincesQuery();
+  const [province, setProvince] = useState<IProvinceObject[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      const { provinces } = data;
+      const provinceObjectArr = provinces.map((prov) => ({
+        province: prov.name,
+        id: prov._id,
+        cover: prov.pictureCover.url,
+      }));
+      provinceObjectArr.push({ province: "", id: "", cover: "" });
+      setProvince([...provinceObjectArr]);
+    }
+  }, [data]);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
   return (
     <>
-      {isVisible ? <SearchHotelsBar /> : null}
+      {isVisible ? (
+        <SearchHotelsBar isFetchingProvince={isFetching} province={province} />
+      ) : null}
       <MainNavBar />
       <HomeBackground>
         <Container>
@@ -100,7 +120,10 @@ function Home() {
           >
             <CategoryTabList handleChange={handleChange} value={value} />
             <CustomTabPanel value={value} index={0}>
-              <SearchHotels />
+              <SearchHotels
+                province={province}
+                isFetchingProvince={isFetching}
+              />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
               <SearchActivities />

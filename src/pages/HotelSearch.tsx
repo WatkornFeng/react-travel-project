@@ -9,7 +9,12 @@ import {
 } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { Link } from "react-router-dom";
 // data
 
@@ -38,6 +43,9 @@ import { useGetHotelsQuery } from "../services/apiHotelSlice";
 import HotelCardSkeleton from "../features/bookings/HotelCardSkeleton";
 import { convertDataToArr } from "../utils/formatData";
 import CustomModal from "../components/CustomModal";
+import { IQueriesObj } from "../features/search/SearchButton";
+import { IProvinceObject } from "../features/search/searchSlice";
+import { useGetProvincesQuery } from "../services/apiProvinceSlice";
 
 const HeroTypography = styled(Typography)({
   fontSize: "3rem",
@@ -63,43 +71,92 @@ const breadcrumbStyled = {
 };
 
 function HotelSearch() {
+  const widthViewPort_670 = useMatchViewPort(670);
+  const widthViewPort_1000 = useMatchViewPort(1000);
+  const isVisible = useScrollVisibility(600);
+
   const { placeParam } = useParams();
-  const { queries, isModalFilterOpen } = useSelector(
-    (state: RootState) => state.filter
-  );
+  // const { queries, isModalFilterOpen } = useSelector(
+  //   (state: RootState) => state.filter
+  // );
+
   // console.log(isModalFilterOpen);
-  const { date, guest } = useSelector((state: RootState) => state.search);
+  // const { date, guest, place } = useSelector(
+  //   (state: RootState) => state.search
+  // );
+
+  // console.log(place);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const queryString = searchParams.toString();
   // console.log(queryString);
   const obj = { queryString, placeParam };
   const { data: gethotels, error, isFetching } = useGetHotelsQuery(obj);
-  const widthViewPort_670 = useMatchViewPort(670);
-  const widthViewPort_1000 = useMatchViewPort(1000);
-  const isVisible = useScrollVisibility(600);
-  const [openModal, isOpenModal] = useState(false);
-  // console.log(queries);
-  // console.log(isModalFilterOpen);
+  const {
+    data: getProvinces,
+    isError,
+    isFetching: fetchingProvince,
+  } = useGetProvincesQuery();
+  const [provincesObj, setProvinceObj] = useState<IProvinceObject[]>([]);
+  const [openWarningModal, isOpenWarningModal] = useState(false);
+  const [queryData, setQueryData] = useState<null | IQueriesObj>(null);
+  const [provinceData, setProvinceData] = useState<null | IProvinceObject>(
+    null
+  );
+
+  const province = localStorage.getItem("province");
+  const query = localStorage.getItem("queries");
 
   useEffect(() => {
-    if (isModalFilterOpen) return;
-    const dataSearch = { date, guest };
-    const dataArr = convertDataToArr(dataSearch);
-    const concatenatedArray = queries.concat(dataArr);
-    setSearchParams(concatenatedArray.join("&"));
-  }, [queries]);
+    if (getProvinces) {
+      const { provinces } = getProvinces;
+      const provinceObjectArr = provinces.map((prov) => ({
+        province: prov.name,
+        id: prov._id,
+        cover: prov.pictureCover.url,
+      }));
+      provinceObjectArr.push({ province: "", id: "", cover: "" });
+      setProvinceObj([...provinceObjectArr]);
+    }
+  }, [getProvinces]);
+  useEffect(() => {
+    if (province) setProvinceData(JSON.parse(province));
+    if (query) setQueryData(JSON.parse(query));
 
-  // console.log("Fetching" + isFetching);
+    if (
+      placeParam &&
+      province &&
+      placeParam !== JSON.parse(province).province
+    ) {
+      const matchProvince = provincesObj.find((pro) => {
+        if (pro.province === placeParam) {
+          return pro;
+        }
+      });
+      localStorage.setItem("province", JSON.stringify(matchProvince));
+    }
+  }, [province, query, placeParam, provincesObj]);
 
-  ////////////////
-  const placeData = places.find((place) => place.province === placeParam);
+  // useEffect(() => {
+  //   // console.log("x");
+  //   if (isModalFilterOpen) return;
+  //   // if (placeParam !== place?.province) return;
+  //   // const dataSearch = { date, guest };
+  //   // const dataArr = convertDataToArr(dataSearch);
+  //   // const concatenatedArray = queries.concat(dataArr);
+  //   // setSearchParams(concatenatedArray.join("&"));
+  // }, [isModalFilterOpen]);
 
   const breadcrumbs = [
     <Link key="1" to="/" style={breadcrumbStyled}>
       HOME
     </Link>,
-    <Link key="2" to={`/hotels/${placeParam}`} style={breadcrumbStyled}>
+    <Link
+      key="2"
+      to={`/hotels/${placeParam}/${queryString}`}
+      style={breadcrumbStyled}
+    >
       HOTELS
     </Link>,
   ];
@@ -109,7 +166,7 @@ function HotelSearch() {
       {!thaiProvinces.includes(placeParam!) && (
         <CustomModal
           toggled={true}
-          setToggled={isOpenModal}
+          setToggled={isOpenWarningModal}
           content={{
             topic: "No Place/Province Found!",
             details: "Please select Province in Thailand",
@@ -117,9 +174,15 @@ function HotelSearch() {
           isNavigated={true}
         />
       )}
-      {isVisible ? <SearchHotelsBar /> : null}
+      {isVisible ? (
+        <SearchHotelsBar
+          isFetchingProvince={fetchingProvince}
+          province={provincesObj}
+        />
+      ) : null}
       {/* <>{isModalFilterOpen}</> */}
-      <BackgroundPicture src={placeData?.imgContainer}>
+      {/* <BackgroundPicture src={placeData?.imgContainer}> */}
+      <BackgroundPicture src={provinceData?.cover}>
         <Container>
           <Stack
             spacing={2}
@@ -165,7 +228,7 @@ function HotelSearch() {
               }}
               color="White"
             >
-              Hotels in {placeParam?.toUpperCase()}
+              Hotels in {provinceData?.province}
             </HeroTypography>
 
             <Typography color="White">
@@ -174,7 +237,10 @@ function HotelSearch() {
           </Box>
 
           <MainCard elevation={10} sx={searchHotelCardStyled}>
-            <SearchHotels />
+            <SearchHotels
+              isFetchingProvince={fetchingProvince}
+              province={provincesObj}
+            />
           </MainCard>
 
           <Grid container spacing={2}>
@@ -251,3 +317,23 @@ function HotelSearch() {
 }
 
 export default HotelSearch;
+// useEffect(() => {
+//   // Fetch data from localStorage and URL on component mount
+//   const storedData = localStorage.getItem("province");
+//   let province;
+//   if (storedData) {
+//     province = JSON.parse(storedData);
+//   }
+//   const urlData = new URLSearchParams(location.search).get("data");
+
+//   // If data exists in localStorage and URL, merge them
+//   if (storedData && urlData) {
+//     setData({ ...province, ...JSON.parse(urlData) });
+//   } else if (storedData) {
+//     // If data exists only in localStorage, use it
+//     setData(province);
+//   } else if (urlData) {
+//     // If data exists only in URL, use it
+//     setData(JSON.parse(urlData));
+//   }
+// }, [location.search]);

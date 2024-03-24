@@ -23,7 +23,7 @@ const GuestListContainer = styled(Box)({
   paddingInline: "15px",
 });
 
-const ages = ["room", "adult", "child"];
+const lists = ["room", "adult", "child"];
 
 function SelectGuest() {
   const guest = useSelector((state: RootState) => state.search.guest);
@@ -75,8 +75,8 @@ function SelectGuest() {
             <Fade {...TransitionProps} timeout={350}>
               <GuestDropdownList>
                 <GuestListContainer>
-                  {ages.map((age) => (
-                    <GuestList key={age} age={age} />
+                  {lists.map((list) => (
+                    <GuestList key={list} list={list} />
                   ))}
                 </GuestListContainer>
               </GuestDropdownList>

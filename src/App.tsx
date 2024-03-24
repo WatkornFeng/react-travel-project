@@ -21,6 +21,8 @@ import ScrollToElement from "./components/ex";
 //   },
 // });
 function App() {
+  // console.log(window.history.state);
+
   return (
     // <QueryClientProvider client={queryClient}>
     // <ReactQueryDevtools initialIsOpen={false} />

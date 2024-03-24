@@ -49,7 +49,7 @@ function ImageSilder() {
           src={url}
         />
       ))}
-      {currentImageIndex !== 0 && (
+      {currentImageIndex >= 0 && (
         <IconButton
           onClick={handlePrevImg}
           disabled={currentImageIndex === 0}
@@ -70,7 +70,7 @@ function ImageSilder() {
           <NavigateBeforeIcon />
         </IconButton>
       )}
-      {currentImageIndex !== 4 && (
+      {currentImageIndex <= 4 && (
         <IconButton
           onClick={handleNextImg}
           disabled={currentImageIndex === 4}

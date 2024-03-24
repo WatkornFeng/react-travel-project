@@ -6,6 +6,7 @@ import filterReducer from "./features/filter/filterSlice";
 import { hotelApi } from "./services/apiHotelSlice";
 import { userApi } from "./services/apiUserSlice";
 import userReducer from "./features/user/userSlice";
+import { provinceApi } from "./services/apiProvinceSlice";
 const store = configureStore({
   reducer: {
     search: searchReducer,
@@ -14,11 +15,13 @@ const store = configureStore({
     user: userReducer,
     [hotelApi.reducerPath]: hotelApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
+    [provinceApi.reducerPath]: provinceApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(hotelApi.middleware)
-      .concat(userApi.middleware),
+      .concat(userApi.middleware)
+      .concat(provinceApi.middleware),
 });
 
 export default store;
